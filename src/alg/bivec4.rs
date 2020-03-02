@@ -1,5 +1,5 @@
 use super::{Quadvec4, Trivec4, Vec4};
-use std::ops::{Add, Mul};
+use core::ops::{Add, Mul};
 
 #[derive(Debug, Clone)]
 pub struct Bivec4 {

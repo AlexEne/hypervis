@@ -1,6 +1,6 @@
 use super::{Bivec4, Trivec4};
 use mint::Vector4;
-use std::ops::{Add, Mul};
+use core::ops::{Add, Mul};
 
 #[derive(Debug, Clone)]
 pub struct Vec4 {

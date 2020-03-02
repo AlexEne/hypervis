@@ -9,7 +9,7 @@ pub struct Vertex4 {
 
 impl Vertex4 {
     pub fn desc<'a>() -> wgpu::VertexBufferDescriptor<'a> {
-        use std::mem;
+        use core::mem;
         wgpu::VertexBufferDescriptor {
             stride: mem::size_of::<Vertex4>() as wgpu::BufferAddress,
             step_mode: wgpu::InputStepMode::Vertex,

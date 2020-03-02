@@ -1,5 +1,5 @@
 use super::{GraphicsContext, SlicePlane, Transform4, Vertex4};
-
+use alloc::vec::Vec;
 use anyhow::{anyhow, Context, Result};
 
 pub const MAX_VERTEX_SIZE: wgpu::BufferAddress = 65536;
@@ -175,7 +175,7 @@ impl SlicePipeline {
         let dst_vertex_buffer =
             ctx.device.create_buffer(&wgpu::BufferDescriptor {
                 size: MAX_VERTEX_SIZE
-                    * std::mem::size_of::<Vertex4>() as wgpu::BufferAddress,
+                    * core::mem::size_of::<Vertex4>() as wgpu::BufferAddress,
                 usage: wgpu::BufferUsage::STORAGE | wgpu::BufferUsage::VERTEX,
             });
 
@@ -187,7 +187,7 @@ impl SlicePipeline {
                         binding: 0,
                         resource: wgpu::BindingResource::Buffer {
                             buffer: &slice_plane_buffer,
-                            range: 0..std::mem::size_of::<SlicePlane>()
+                            range: 0..core::mem::size_of::<SlicePlane>()
                                 as wgpu::BufferAddress,
                         },
                     },
@@ -195,7 +195,7 @@ impl SlicePipeline {
                         binding: 1,
                         resource: wgpu::BindingResource::Buffer {
                             buffer: &transform_buffer,
-                            range: 0..std::mem::size_of::<Transform4>()
+                            range: 0..core::mem::size_of::<Transform4>()
                                 as wgpu::BufferAddress,
                         },
                     },
@@ -210,7 +210,7 @@ impl SlicePipeline {
                         binding: 0,
                         resource: wgpu::BindingResource::Buffer {
                             buffer: &indirect_command_buffer,
-                            range: 0..std::mem::size_of::<u32>()
+                            range: 0..core::mem::size_of::<u32>()
                                 as wgpu::BufferAddress,
                         },
                     },
@@ -219,7 +219,7 @@ impl SlicePipeline {
                         resource: wgpu::BindingResource::Buffer {
                             buffer: &dst_vertex_buffer,
                             range: 0..MAX_VERTEX_SIZE
-                                * std::mem::size_of::<Vertex4>()
+                                * core::mem::size_of::<Vertex4>()
                                     as wgpu::BufferAddress,
                         },
                     },
@@ -246,10 +246,10 @@ impl SlicePipeline {
     ) -> MeshBinding {
         let simplex_count = (indices.len() / 4) as u32;
         let vertex_buffer_size = (vertices.len()
-            * std::mem::size_of::<Vertex4>())
+            * core::mem::size_of::<Vertex4>())
             as wgpu::BufferAddress;
         let index_buffer_size =
-            (indices.len() * std::mem::size_of::<u32>()) as wgpu::BufferAddress;
+            (indices.len() * core::mem::size_of::<u32>()) as wgpu::BufferAddress;
 
         let simplex_count_buffer = ctx
             .device
@@ -283,7 +283,7 @@ impl SlicePipeline {
                         binding: 0,
                         resource: wgpu::BindingResource::Buffer {
                             buffer: &simplex_count_buffer,
-                            range: 0..std::mem::size_of::<u32>()
+                            range: 0..core::mem::size_of::<u32>()
                                 as wgpu::BufferAddress,
                         },
                     },
@@ -336,7 +336,7 @@ impl SlicePipeline {
             0,
             &self.slice_plane_buffer,
             0,
-            std::mem::size_of::<SlicePlane>() as wgpu::BufferAddress,
+            core::mem::size_of::<SlicePlane>() as wgpu::BufferAddress,
         );
 
         // update transform
@@ -349,7 +349,7 @@ impl SlicePipeline {
             0,
             &self.transform_buffer,
             0,
-            std::mem::size_of::<Transform4>() as wgpu::BufferAddress,
+            core::mem::size_of::<Transform4>() as wgpu::BufferAddress,
         );
 
         // reset indirect command buffer
@@ -362,7 +362,7 @@ impl SlicePipeline {
             0,
             &self.indirect_command_buffer,
             0,
-            std::mem::size_of::<DrawIndirectCommand>() as wgpu::BufferAddress,
+            core::mem::size_of::<DrawIndirectCommand>() as wgpu::BufferAddress,
         );
 
         // Compute into the destination bind group

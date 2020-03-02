@@ -6,6 +6,7 @@ pub use cell600::*;
 
 use crate::context::graphics::Vertex4;
 use cgmath::{prelude::Zero, InnerSpace, Vector3, Vector4};
+use alloc::vec::Vec;
 
 fn cell_120_hplanes() -> Vec<(Vector4<f32>, f32)> {
     cell_600_verts().iter().map(|v| (*v, -0.925615)).collect()

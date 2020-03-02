@@ -53,7 +53,7 @@ impl TriangleListPipeline {
                     binding: 0,
                     resource: wgpu::BindingResource::Buffer {
                         buffer: &view_proj_buffer,
-                        range: 0..std::mem::size_of::<ViewProjection>()
+                        range: 0..core::mem::size_of::<ViewProjection>()
                             as wgpu::BufferAddress,
                     },
                 }],
@@ -133,7 +133,7 @@ impl TriangleListPipeline {
                 0,
                 &self.view_proj_buffer,
                 0,
-                std::mem::size_of::<ViewProjection>() as wgpu::BufferAddress,
+                core::mem::size_of::<ViewProjection>() as wgpu::BufferAddress,
             );
         }
         ctx.queue.submit(&[encoder.finish()]);

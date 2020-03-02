@@ -1,4 +1,5 @@
 use crate::context::graphics::Vertex4;
+use alloc::vec::Vec;
 
 pub struct Mesh4 {
     pub vertices: Vec<Vertex4>,

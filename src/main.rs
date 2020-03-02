@@ -1,3 +1,20 @@
+#![no_std]
+#![no_main]
+#![feature(core_intrinsics, lang_items, link_args, alloc_error_handler)]
+
+#[allow(unused_attributes)]
+#[link_args = "/NODEFAULTLIB /SUBSYSTEM:CONSOLE /SAFESEH:NO /DYNAMICBASE:NO /ENTRY:mainCRTStartup /LTCG msvcrt.lib vcruntime.lib"]
+extern "C" {}
+#[macro_use]
+extern crate alloc;
+
+use core::panic::PanicInfo;
+use alloc::boxed::Box;
+use core::alloc::{GlobalAlloc, Layout};
+use core::hint::unreachable_unchecked;
+use winapi::um::heapapi::{GetProcessHeap, HeapAlloc, HeapFree};
+use winapi::um::processthreadsapi::ExitProcess;
+
 mod alg;
 mod context;
 mod geometry;
@@ -199,6 +216,23 @@ impl Application for TestApp {
     }
 }
 
-fn main() -> Result<()> {
-    context::run::<TestApp>("Hello world!", (800, 600))
+fn run_app() {
+    context::run::<TestApp>("Hello world!", (800, 600)).unwrap();
+}
+
+fn exit_process(exit_code: i32) -> ! {
+    unsafe {
+        ExitProcess(exit_code as _);
+        unreachable_unchecked()
+    }
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn mainCRTStartup() -> i32 {
+    // Do some stuff
+    let a = Box::new(10);
+    
+    
+    // Note: returning from this function actually end the process, we need to call ExitProcess explicitly:
+    exit_process(*a);
 }

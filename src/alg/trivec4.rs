@@ -1,5 +1,5 @@
 use super::{Bivec4, Quadvec4, Vec4};
-use std::ops::Add;
+use core::ops::Add;
 #[derive(Debug, Clone)]
 pub struct Trivec4 {
     pub xyz: f32,
