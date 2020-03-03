@@ -8,6 +8,7 @@ use winit::{
     window::{Window, WindowBuilder},
 };
 
+use winit::platform::windows::EventLoopExtWindows;
 pub use graphics::GraphicsContext;
 
 pub trait Application: 'static + Sized {
@@ -48,7 +49,7 @@ impl Ctx {
 }
 
 pub fn run<App: Application>(title: &str, size: (u32, u32)) -> Result<()> {
-    let event_loop = EventLoop::new();
+    let event_loop = EventLoopExtWindows::new_dpi_unaware_any_thread();
     let mut ctx = Ctx::new(title, size, &event_loop)?;
 
     let mut app = App::init(&mut ctx);
